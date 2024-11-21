@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner</title>
+    <script src="/static/main.js" defer></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to PlanIt!</h1>
+    </header>
+    <main>
+        <form id="trip-form">
+            <label for="user-query">Enter your trip requirements:</label><br>
+            <textarea id="user-query" name="user-query" rows="4" placeholder="e.g., Budget: $500, Destination: Iceland, Duration: 4 days"></textarea><br>
+            <button type="submit">Plan My Trip</button>
+        </form>
+        <h2>Trip Result</h2>
+        <div id="result">Your result will appear here.</div>
+    </main>
+    <footer>
+        <p>© 2024 PlanIt! All rights reserved :D</p>
+    </footer>
+</body>
+</html>

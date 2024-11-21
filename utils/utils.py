@@ -29,7 +29,7 @@ def save_data(json_file_path, conversation_id, key, value):
     # Save the updated data back to the JSON file
     with open(json_file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=4)
-    print(f"Data saved successfully to {json_file_path}")
+    print(f"{key} saved successfully to {json_file_path}")
 
 # Function to query data and convert to a DataFrame
 def query_data(json_file_path):
