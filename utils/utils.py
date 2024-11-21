@@ -52,6 +52,9 @@ def save_selected_trip(conversation_id, selected_trip):
 def save_refined_trip(conversation_id, refined_trip):
     save_data(file_path, conversation_id=conversation_id, key = KEY_REFINED_TRIP, value = refined_trip)
 
+def save_verification_result(conversation_id, result, key):
+    save_data(file_path, conversation_id=conversation_id, key = key, value = result)
+
 def get_user_query(conversation_id):
     return query_data(file_path).loc[conversation_id, KEY_USER_QUERY]
 

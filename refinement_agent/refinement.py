@@ -70,10 +70,10 @@ def refinement_agent(user_query, initial_trip_plan):
     refined_plan = response.choices[0].message.content
     return refined_plan
 
-conversation_id = "test001"
-user_query = get_user_query(conversation_id)
-initial_trip_plan = get_selected_trip(conversation_id)
+# conversation_id = "test001"
+# user_query = get_user_query(conversation_id)
+# initial_trip_plan = get_selected_trip(conversation_id)
 
-refined_trip_plan = refinement_agent(user_query, initial_trip_plan)
-# print("Refined Trip Plan:\n", refined_trip_plan)
-save_refined_trip(conversation_id, refined_trip_plan)
+# refined_trip_plan = refinement_agent(user_query, initial_trip_plan)
+# # print("Refined Trip Plan:\n", refined_trip_plan)
+# save_refined_trip(conversation_id, refined_trip_plan)
