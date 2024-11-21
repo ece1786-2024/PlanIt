@@ -1,8 +1,7 @@
 import json
 import os
 import pandas as pd
-
-from test_data import *
+from utils import test_data
 
 KEY_USER_QUERY = "user_query"
 KEY_REFINED_TRIP = "refined_trip"
@@ -62,6 +61,6 @@ def get_selected_trip(conversation_id):
 def get_refined_trip(conversation_id):
     return query_data(file_path).loc[conversation_id, KEY_REFINED_TRIP]
 
-save_user_query(conversation_id=test_conversation_id, user_query=USER_QUERY)
-save_selected_trip(conversation_id=test_conversation_id, selected_trip=TRIP)
-print(get_user_query(conversation_id=test_conversation_id))
+# save_user_query(conversation_id=test_conversation_id, user_query=test_data.USER_QUERY)
+# save_selected_trip(conversation_id=test_conversation_id, selected_trip=test_data.TRIP)
+# print(get_user_query(conversation_id=test_conversation_id))

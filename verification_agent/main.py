@@ -1,7 +1,14 @@
 import openai
 from openai import OpenAI
+import sys
+import os
 
-api_key = ""
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+print(sys.path)
+
+from utils.utils import *
+from api_key import api_key # replace with your own api key
+
 sys_prompt = """
 Given the user requirement and a trip, tell me the percentage of user requirements are satisfied by the trip. Also tell me if the trip is realistic or not based on the ticket price, hotel price, agenda, etc, and give me a reason why you think so. Structure your answer like this:
 
@@ -28,59 +35,6 @@ TRIP:
 [TRIP]
 """
 
-user_query = """
-Give me a 5 day chill trip plan to Sydney, my budget is $3000 CAD.
-"""
-
-trip = """
-**Destination:** Sydney, Australia
-
-**Duration:** 5 days, 4 nights
-
-**Points of Interest:** 13
-
-**Budget**: CA$3263
-
-### Day 01: Arrival in Sydney
-
-- **Flight:** From home city to Sydney.
-- **Breakfast:** Not included (recommendation for local meals).
-- **Transportation:** Airport transfer (1 hour).
-- **Dinner:** Not included (recommendation for local meals).
-- **Hotel:** Stanford Plaza Sydney Airport or Pullman Sydney Airport.
-
-### Day 02: Sydney Sightseeing
-
-- **Breakfast:** Hotel breakfast (30 CNY per person).
-- **Transportation:** Private transfer.
-- **Activities:** Visit Sydney University, Sydney Harbour Bridge, Sydney Opera House, Royal Botanic Gardens, and Queen Victoria Building. (Total 5 POIs)
-- **Dinner:** Not included (recommendation for local meals).
-- **Hotel:** Same as Day 01.
-
-### Day 03: Markets, Parks, and Beaches
-
-- **Breakfast:** Hotel breakfast.
-- **Transportation:** Private transfer.
-- **Activities:** Visit Sydney Fish Market, Hyde Park, Taronga Zoo, and Bondi Beach. (Total 4 POIs)
-- **Dinner:** Not included (recommendation for local meals).
-- **Hotel:** Same as Day 01.
-
-### Day 04: Blue Mountains National Park
-
-- **Breakfast:** Hotel breakfast.
-- **Transportation:** Private transfer.
-- **Activities:** Explore Blue Mountains National Park, Three Sisters, and Leura Main Street. (Total 3 POIs)
-- **Dinner:** Not included (recommendation for local meals).
-- **Hotel:** Same as Day 01.
-
-### Day 05: Departure
-
-- **Breakfast:** Hotel breakfast.
-- **Transportation:** Transfer to the airport for flight back to home city.
-- **Lunch & Dinner:** Not included.
-- **Flight:** Based on flight time.
-"""
-
 def get_verification_result(user_query, trip):
   user_input = input_text.replace("[USER QUERY]", user_query)
   user_input = user_input.replace("[TRIP]", trip)
@@ -97,6 +51,10 @@ def get_verification_result(user_query, trip):
 
 # assume api_key already defined
 client = OpenAI(api_key=api_key)
+
+conversation_id = "ginny-test"
+user_query = get_user_query(conversation_id)
+trip = get_selected_trip(conversation_id)
 output_text = get_verification_result(user_query, trip)
 print(f"INPUT user_query:\n {user_query}\ntrip: {trip}\n")
 print(f"OUTPUT: \n{output_text}")
