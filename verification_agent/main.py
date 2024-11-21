@@ -37,7 +37,7 @@ TRIP:
 [TRIP]
 """
 
-def get_verification_result(user_query, trip):
+def get_verification_result(client,user_query, trip):
   user_input = input_text.replace("[USER QUERY]", user_query)
   user_input = user_input.replace("[TRIP]", trip)
   completion = client.chat.completions.create(
@@ -51,9 +51,20 @@ def get_verification_result(user_query, trip):
   )
   return(completion.choices[0].message.content)
 
-conversation_id = "ginny-test"
-user_query = get_user_query(conversation_id)
-trip = get_selected_trip(conversation_id)
-output_text = get_verification_result(user_query, trip)
-print(f"INPUT user_query:\n {user_query}\ntrip: {trip}\n")
-print(f"OUTPUT: \n{output_text}")
+def verify_selected_trip(client, conversation_id):
+  user_query = get_user_query(conversation_id)
+  trip = get_selected_trip(conversation_id)
+  return get_verification_result(client, user_query, trip)
+
+def verify_refined_trip(client, conversation_id):
+  user_query = get_user_query(conversation_id)
+  trip = get_refined_trip(conversation_id)
+  return get_verification_result(client, user_query, trip)
+
+def main():
+  conversation_id = "ginny-test"
+  result = verify_selected_trip(client, conversation_id)
+  print(f"OUTPUT: \n{result}")
+
+if __name__ == "__main__":
+  main()
