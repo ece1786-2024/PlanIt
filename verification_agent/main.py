@@ -7,12 +7,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 print(sys.path)
 
 from utils.utils import *
-from api_key import api_key # replace with your own api key
+from dotenv import load_dotenv
+load_dotenv()
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 sys_prompt = """
 Given the user requirement and a trip, tell me the percentage of user requirements are satisfied by the trip. Also tell me if the trip is realistic or not based on the ticket price, hotel price, agenda, etc, and give me a reason why you think so. Structure your answer like this:
 
-User satisfication rate: [% of requirements satisfied by the trip]
+User Satisfaction Rate: [% of requirements satisfied by the trip]
 [REASON]
 
 Trip Realism Score: [% of how realistic this trip is]
@@ -48,9 +50,6 @@ def get_verification_result(user_query, trip):
     max_tokens=500
   )
   return(completion.choices[0].message.content)
-
-# assume api_key already defined
-client = OpenAI(api_key=api_key)
 
 conversation_id = "ginny-test"
 user_query = get_user_query(conversation_id)

@@ -1,9 +1,12 @@
 import pandas as pd
 from openai import OpenAI
 import ast
+import os
+from dotenv import load_dotenv
 
 # Initialize the OpenAI client
-client = OpenAI()  # Replace with your actual API key
+load_dotenv()
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 # Load the travel plans
 travel_plans = pd.read_csv('travel_plans.csv')
