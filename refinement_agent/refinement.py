@@ -48,15 +48,7 @@ def refinement_agent(user_query, initial_trip_plan):
     - Modifying or adding activities to match their interests
     - Aligning the trip style with their expectations
     
-    Make sure the refined plan is both practical and realistic, taking into account any real-world limitations or constraints. Make sure the refined plan is both practical and realistic, taking into account any real-world limitations or constraints. The refined plan should have the same format as the "Initial Trip Plan”, and output follow this format:
-
-    Refined Plan:
-
-    Modifications:
-
-    1.
-
-    2.
+    Make sure the refined plan is both practical and realistic, taking into account any real-world limitations or constraints. Make sure the refined plan is both practical and realistic, taking into account any real-world limitations or constraints. The refined plan should have the same format as the "Initial Trip Plan”, and only output the plan without any extra words.
 
     """
     response = client.chat.completions.create(

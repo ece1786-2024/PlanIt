@@ -37,7 +37,7 @@ def process_query():
     save_user_query(conversation_id, user_query)
 
     # step 2: select best-matched trip plan
-
+    
 
     # step 3: refined selected_trip_plan
     selected_trip_plan = get_selected_trip(conversation_id)
@@ -54,18 +54,15 @@ def process_query():
     refined_user_satisfaction_rate, refined_trip_realism_score = extract_scores(refined_result)
     save_verification_result(conversation_id, refined_result, "refined_verification")
 
-    # step 6: compare and output
-    if refined_user_satisfaction_rate > selected_user_satisfaction_rate:
+    # step 6: compare and output (weight 8:2)
+    refined_score = (refined_user_satisfaction_rate * 0.8) + (refined_trip_realism_score * 0.2)
+    selected_score = (selected_user_satisfaction_rate * 0.8) + (selected_trip_realism_score * 0.2)
+    if refined_score > selected_score:
         final_result = refined_trip_plan
-    elif refined_user_satisfaction_rate < selected_user_satisfaction_rate:
-        final_result = selected_trip_plan
     else:
-        if refined_trip_realism_score > selected_trip_realism_score:
-            final_result = refined_trip_plan
-        elif refined_trip_realism_score < selected_trip_realism_score:
-            final_result = selected_trip_plan
-        else:
-            final_result = refined_trip_plan
+        final_result = selected_trip_plan
+    print("refined score: ", refined_score)
+    print("selected score: ", selected_score)
 
     return jsonify({'result': final_result})
 
