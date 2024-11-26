@@ -6,7 +6,22 @@ from openai import OpenAI
 
 client = OpenAI()
 
-travel_plans = pd.read_csv('travel_plans.csv')
+file_path = 'travel_plans.csv'
+
+try:
+    travel_plans = pd.read_csv(file_path)
+except pd.errors.ParserError as e:
+    print("ParserError:", e)
+    line_number = int(str(e).split('line ')[1].split(',')[0])  # Get the line number from the error message
+    print(f"Problematic line {line_number}:")
+    
+    # Read the file manually to find the problematic line
+    with open(file_path, 'r') as f:
+        lines = f.readlines()
+        problematic_line = lines[line_number - 1]  # Adjust for 0-indexing
+        print(problematic_line)
+        fields = problematic_line.strip().split(',')
+        print("Fields read:", fields)
 
 # Clean and preprocess data
 def preprocess_travel_plans(data):
