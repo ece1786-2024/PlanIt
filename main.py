@@ -59,6 +59,9 @@ def process_query():
         print("Error extracting scores from refined_result")
     save_verification_result(conversation_id, refined_result, "refined_verification")
 
+    # verify baseline model
+    
+
     # step 6: compare and output (weight 8:2)
     refined_score = (refined_user_satisfaction_rate * 0.8) + (refined_trip_realism_score * 0.2)
     selected_score = (selected_user_satisfaction_rate * 0.8) + (selected_trip_realism_score * 0.2)

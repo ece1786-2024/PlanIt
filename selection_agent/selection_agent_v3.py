@@ -6,7 +6,7 @@ from openai import OpenAI
 
 client = OpenAI()
 
-travel_plans = pd.read_csv('eric.csv')
+travel_plans = pd.read_csv('travel_plans.csv')
 
 # Clean and preprocess data
 def preprocess_travel_plans(data):
