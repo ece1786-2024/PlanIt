@@ -7,7 +7,7 @@ from openai import OpenAI
 
 client = OpenAI()
 
-travel_plans = pd.read_csv('travel_plans.csv')
+travel_plans = pd.read_csv('eric.csv')
 
 # Clean and preprocess data
 def preprocess_travel_plans(data):
@@ -74,12 +74,14 @@ def retrieve_top_matches(user_query, top_k=5):
 # Use GPT to pick the best match
 def select(user_query, top_matches):
     context = top_matches[['country', 'destination', 'durations', 'budgets', 'details']].to_dict(orient='records')
+    # print("context: ", context)
     prompt = (
         f"The user asked: '{user_query}'.\n\n"
         f"Here are the top 5 travel plans:\n"
         f"{context}\n\n"
-        f"Based on the user preferences and numerical details like duration and budget, "
+        f"Based on the user preferences and numerical details, first consider about destination, then duration and budget, "
         f"select the single best travel plan in the format exactly the same as in the database without anything else."
+        f"Only report the 'details' of the best travel plan without any additonal words."
     )
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -106,6 +108,6 @@ def find_best_plan(user_query):
     best_plan = select(user_query, top_matches)
     return best_plan
 
-user_input = "I want to go to USA for around 5 days. I have a budget of around 2200. I mainly wants to see the city"
-best_plan = find_best_plan(user_input)
-print(best_plan)
+# user_input = "I want a 4-day trip to China, I plan to visit Hong Kong and Maca. My budget is 1100"
+# best_plan = find_best_plan(user_input)
+# print(best_plan)
