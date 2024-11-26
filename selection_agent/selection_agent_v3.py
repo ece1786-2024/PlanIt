@@ -1,5 +1,4 @@
 import pandas as pd
-import openai
 import faiss
 import numpy as np
 import ast
@@ -80,8 +79,15 @@ def select(user_query, top_matches):
         f"Here are the top 5 travel plans:\n"
         f"{context}\n\n"
         f"Based on the user preferences and numerical details, first consider about destination, then duration and budget, "
-        f"select the single best travel plan in the format exactly the same as in the database without anything else."
-        f"Only report the 'details' of the best travel plan without any additonal words."
+        f"select the best travel plan among them, if no one match return 'None of them match'"
+        f"Output the best travel plan as this format (using exactly same words from the input):\n"
+        f"Summary:\n"
+        f"- duration: ... days\n"
+        f"- destination: \n"
+        f"- budget: $...\n\n"
+        f"Details:\n"
+        f"Day 1: ...\n"
+        f"Day 2: ...\n"
     )
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -108,6 +114,6 @@ def find_best_plan(user_query):
     best_plan = select(user_query, top_matches)
     return best_plan
 
-# user_input = "I want a 4-day trip to China, I plan to visit Hong Kong and Maca. My budget is 1100"
+# user_input = "I want a 4-day trip to China, I plan to visit Hong Kong and Macao. My budget is 1100"
 # best_plan = find_best_plan(user_input)
 # print(best_plan)

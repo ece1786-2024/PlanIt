@@ -17,8 +17,8 @@ document.getElementById('trip-form').addEventListener('submit', async function (
         const data = await response.json();
 
         if (data.result) {
-            const refinedPlanHTML = formatResultAsHTML(data.result);
-            resultContainer.innerHTML = refinedPlanHTML;
+            const formattedHTML = formatResult(data.result);
+            resultContainer.innerHTML = formattedHTML;
         } else {
             resultContainer.innerHTML = "No result returned.";
         }
@@ -27,14 +27,40 @@ document.getElementById('trip-form').addEventListener('submit', async function (
     }
 });
 
-function formatResultAsHTML(resultText) {
-    // Convert text to formatted HTML
-    const formatted = resultText
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold for **text**
-        .replace(/### (.*?)\n/g, '<h3>$1</h3>')          // Convert ### to <h3>
-        .replace(/- (.*?)\n/g, '<li>$1</li>')            // Convert - to <li>
-        .replace(/\n\n/g, '</ul><ul>')                   // Newline -> close/reopen list
-        .replace(/\n/g, '<br>');                         // Remaining newlines -> <br>
+function formatResult(resultText) {
+    // Split the summary and details sections
+    const [summaryPart, detailsPart] = resultText.split("\n\nDetails:\n");
+    const summaryLines = summaryPart.split("\n").filter(line => line.startsWith("-"));
+    const detailsContent = detailsPart || "";
 
-    return `<div><ul>${formatted}</ul></div>`;
+    // Parse details content into subsections by day
+    const daySections = detailsContent.split("Day ").slice(1).map(dayContent => {
+        const [dayTitle, ...dayDetails] = dayContent.split(":");
+        return `<div class="day-section">
+            <h4>Day ${dayTitle.trim()}</h4>
+            <p>${dayDetails.join(":").trim()}</p>
+        </div>`;
+    }).join("");
+
+    // Create formatted HTML
+    const summaryHTML = `
+        <h3>Summary</h3>
+        <ul>
+            ${summaryLines.map(line => `<li>${line.replace("- ", "")}</li>`).join("")}
+        </ul>
+    `;
+
+    const detailsHTML = `
+        <h3>Details</h3>
+        ${daySections}
+    `;
+
+    return `
+        <div class="result-summary">
+            ${summaryHTML}
+        </div>
+        <div class="result-details">
+            ${detailsHTML}
+        </div>
+    `;
 }
