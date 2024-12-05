@@ -1,14 +1,13 @@
 from flask import Flask, request, jsonify, render_template
 from utils.utils import *
-from refinement_agent.refinement import refinement_agent
-from verification_agent.main import get_verification_result
-from selection_agent.selection_agent_v3 import find_best_plan
+from agents.refinement import refinement_agent
+from agents.verification import get_verification_result
+from agents.selection import find_best_plan
 import re
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
 load_dotenv()
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
@@ -32,7 +31,7 @@ def process_query():
     data = request.json
     user_query = data.get('user_query')
 
-    conversation_id = "test001"
+    conversation_id = "result"
 
     # step 1: get & save user query
     save_user_query(conversation_id, user_query)
@@ -57,10 +56,7 @@ def process_query():
     refined_user_satisfaction_rate, refined_trip_realism_score = extract_scores(refined_result)
     if refined_user_satisfaction_rate is None or refined_trip_realism_score is None:
         print("Error extracting scores from refined_result")
-    save_verification_result(conversation_id, refined_result, "refined_verification")
-
-    # verify baseline model
-    
+    save_verification_result(conversation_id, refined_result, "refined_verification")    
 
     # step 6: compare and output (weight 8:2)
     refined_score = (refined_user_satisfaction_rate * 0.8) + (refined_trip_realism_score * 0.2)
@@ -75,4 +71,4 @@ def process_query():
     return jsonify({'result': final_result})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

@@ -6,7 +6,7 @@ from openai import OpenAI
 
 client = OpenAI()
 
-file_path = 'travel_plans.csv'
+file_path = 'data/travel_plans.csv'
 
 try:
     travel_plans = pd.read_csv(file_path)

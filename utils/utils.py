@@ -7,7 +7,7 @@ KEY_USER_QUERY = "user_query"
 KEY_REFINED_TRIP = "refined_trip"
 KEY_SELECTED_TRIP = "selected_trip"
 
-file_path = "TripPlanState.json"
+file_path = "Result.json"
 
 test_conversation_id = "ginny-test"
 

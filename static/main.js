@@ -23,17 +23,17 @@ document.getElementById('trip-form').addEventListener('submit', async function (
             resultContainer.innerHTML = "No result returned.";
         }
     } catch (error) {
-        resultContainer.innerHTML = "An error occurred: " + error.message;
+        resultContainer.innerHTML = "An error occurred, please try again! ";
     }
 });
 
 function formatResult(resultText) {
-    // Split the summary and details sections
+    // split the summary and details 
     const [summaryPart, detailsPart] = resultText.split("\n\nDetails:\n");
     const summaryLines = summaryPart.split("\n").filter(line => line.startsWith("-"));
     const detailsContent = detailsPart || "";
 
-    // Parse details content into subsections by day
+    // details content into subsections
     const daySections = detailsContent.split("Day ").slice(1).map(dayContent => {
         const [dayTitle, ...dayDetails] = dayContent.split(":");
         return `<div class="day-section">
@@ -42,7 +42,6 @@ function formatResult(resultText) {
         </div>`;
     }).join("");
 
-    // Create formatted HTML
     const summaryHTML = `
         <h3>Summary</h3>
         <ul>
